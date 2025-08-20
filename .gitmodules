@@ -1,0 +1,3 @@
+[submodule "tone/services/signoz/upstream"]
+	path = tone/services/signoz/upstream
+	url = https://github.com/SigNoz/signoz.git
