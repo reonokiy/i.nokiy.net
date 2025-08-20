@@ -11,5 +11,5 @@ upstream_deploy_dir="$script_dir/upstream/deploy"
 data_deploy_dir="$DATA_DIR/signoz/deploy"
 
 # make sure the data deploy directory exists
-mkdir -p "$data_deploy_dir"
-cp -r "$upstream_deploy_dir/." "$data_deploy_dir"
+sudo mkdir -p "$data_deploy_dir"
+sudo cp -r "$upstream_deploy_dir/." "$data_deploy_dir"
