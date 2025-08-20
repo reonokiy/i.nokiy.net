@@ -1,0 +1,18 @@
+services:
+  opentelemetry-collector:
+    image: otel/opentelemetry-collector-contrib:0.130.1
+    restart: unless-stopped
+    user: "0:0"
+    pid: "host"
+    network_mode: "host"
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc:/hostfs/proc:ro
+      - /sys:/hostfs/sys:ro
+      # - /:/hostfs:ro
+      - ./config.yaml:/etc/otelcol-contrib/config.yaml
+    environment:
+      HOST_PROC: /hostfs/proc
+      HOST_SYS: /hostfs/sys
+      HOST_ROOT: /hostfs
