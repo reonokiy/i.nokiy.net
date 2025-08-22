@@ -7,11 +7,6 @@ services:
 
   forgejo:
     image: 'data.forgejo.org/forgejo/runner:9'
-    links:
-      - docker-in-docker
-    depends_on:
-      docker-in-docker:
-        condition: service_started
     privileged: true
     environment:
       DOCKER_HOST: unix:///var/run/docker.sock
