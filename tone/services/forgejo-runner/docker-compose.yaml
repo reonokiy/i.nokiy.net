@@ -1,9 +1,9 @@
 services:
-  docker-in-docker:
-    image: docker:dind
-    privileged: 'true'
-    command: ['dockerd', '-H', 'tcp://0.0.0.0:2375', '--tls=false']
-    restart: 'unless-stopped'
+  # docker-in-docker:
+  #   image: docker:dind
+  #   privileged: 'true'
+  #   command: ['dockerd', '-H', 'tcp://0.0.0.0:2375', '--tls=false']
+  #   restart: 'unless-stopped'
 
   forgejo:
     image: 'data.forgejo.org/forgejo/runner:9'
@@ -12,10 +12,11 @@ services:
     depends_on:
       docker-in-docker:
         condition: service_started
+    privileged: true
     environment:
-      DOCKER_HOST: tcp://docker-in-docker:2375
-    user: 1001:1001
+      DOCKER_HOST: unix:///var/run/docker.sock
+    user: 0:0
     volumes:
-      - ${DATA_DIR:-/data}/forgejo-runner:/data
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: 'unless-stopped'
     command: '/bin/sh -c "sleep 5; forgejo-runner daemon"'
