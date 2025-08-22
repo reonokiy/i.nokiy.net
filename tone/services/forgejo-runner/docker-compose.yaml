@@ -13,5 +13,6 @@ services:
     user: 0:0
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ${DATA_DIR:-/data}/forgejo-runner:/data
     restart: 'unless-stopped'
     command: '/bin/sh -c "sleep 5; forgejo-runner daemon"'
