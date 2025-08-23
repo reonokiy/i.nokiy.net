@@ -12,8 +12,8 @@ forgejo_runner_cache_dir=${forgejo_runner_data_dir}/.cache
 forgejo_runner_config_dir=${forgejo_runner_data_dir}/.runner
 
 # fix permissions
-sudo chown -R 1001:1001 ${forgejo_runner_cache_dir}
-sudo chown -R 1001:1001 ${forgejo_runner_config_dir}
+sudo chown -R 1000:1000 ${forgejo_runner_cache_dir}
+sudo chown -R 1000:1000 ${forgejo_runner_config_dir}
 sudo chmod 755 ${forgejo_runner_cache_dir}
 sudo chmod 755 ${forgejo_runner_config_dir}
 sudo chmod g+s ${forgejo_runner_cache_dir}
