@@ -1,0 +1,29 @@
+services:
+  self: 
+    image: git.nokiy.net/reonokiy/self-nokiy-net:latest
+    restart: unless-stopped
+    environment:
+      NOKIY_POST__BACKEND__BASE_URL: https://git.nokiy.net/api/v1
+      NOKIY_POST__BACKEND__API_KEY: ${FORGEJO_API_KEY}
+      NOKIY_POST__BACKEND__OWNER: reonokiy
+      NOKIY_POST__BACKEND__REPO: note
+      NOKIY_WEBHOOK_TOKEN: ${WEBHOOK_TOKEN:-""}
+      NOKIY_DB__CONNECT_STRING: postgresql://${DB_USER:-nokiy}:${DB_PASSWORD:-nokiy}@postgres:5432/${DB_NAME:-nokiy}
+    ports:
+      - 8000:8000
+
+  postgres:
+    image: postgres:17-trixie
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-nokiy}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-nokiy}
+      POSTGRES_DB: ${DB_NAME:-nokiy}
+    volumes:
+      - ${DATA_DIR:-/data}/self-nokiy-net/db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-nokiy}"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
