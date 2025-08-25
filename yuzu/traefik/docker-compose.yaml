@@ -41,7 +41,7 @@ services:
     volumes:
       # Mount the Docker socket to allow Traefik to listen to Docker events
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "${DATA_DIR:-/data}/traefik_data/acme.json:/letsencrypt/acme.json"
+      - "${DATA_DIR:-/data}/traefik/acme.json:/letsencrypt/acme.json"
     networks:
       - proxy
     labels:
