@@ -51,7 +51,7 @@ services:
       - proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik-dashboard.rule=Host(`yuzu.i.nokiy.net`)"
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.yuzu.i.nokiy.net`)"
       - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
       - "traefik.http.routers.traefik-dashboard.service=api@internal"
       - "traefik.http.routers.traefik-dashboard.tls.certresolver=cloudflare"

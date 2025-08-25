@@ -24,4 +24,4 @@ if ! sudo docker network ls | grep -q "proxy"; then
   sudo docker network create -d bridge proxy
 fi
 
-op run --env-file=./.env -- sudo docker compose up -d
+op run --env-file=./.env -- COMPOSE_DISABLE_ENV_FILE=true sudo docker compose up -d
