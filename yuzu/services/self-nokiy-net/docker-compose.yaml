@@ -11,6 +11,12 @@ services:
       NOKIY_DB__CONNECT_STRING: postgresql://${DB_USER:-nokiy}:${DB_PASSWORD:-nokiy}@postgres:5432/${DB_NAME:-nokiy}
     ports:
       - 8000:8000
+  
+  web:
+    image: git.nokiy.net/reonokiy/nokiy-net:latest
+    restart: unless-stopped
+    environment:
+      API_ENDPOINT: http://self:8000
 
   postgres:
     image: postgres:17-trixie
