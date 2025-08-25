@@ -10,6 +10,8 @@ services:
       - "--entrypoints.web.address=:80"
       # Define the HTTPS entrypoint on port 443
       - "--entrypoints.websecure.address=:443"
+      # Define the internal entrypoint on port 8080
+      - "--entrypoints.internal.address=:8080"
       # Redirect all traffic from HTTP to HTTPS
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
@@ -33,8 +35,12 @@ services:
       # --- Logging ---
       - "--log.level=INFO"
     ports:
-      - "80:80"      # HTTP traffic
-      - "443:443"    # HTTPS traffic
+      - "${EXTERNAL_IPV4}:80:80"      # HTTP traffic
+      - "[${EXTERNAL_IPV6}]:80:80"
+      - "${EXTERNAL_IPV4}:443:443"    # HTTPS traffic
+      - "[${EXTERNAL_IPV6}]:443:443"
+      - "${INTERNAL_IPV4}:443:8080"  # Internal traffic
+
     environment:
       # Pass the Cloudflare API Token from the .env file
       # - CF_API_EMAIL=${CF_API_EMAIL}
@@ -52,7 +58,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.yuzu.i.nokiy.net`)"
-      - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
+      - "traefik.http.routers.traefik-dashboard.entrypoints=internal"
       - "traefik.http.routers.traefik-dashboard.service=api@internal"
       - "traefik.http.routers.traefik-dashboard.tls=true"
       - "traefik.http.routers.traefik-dashboard.tls.certresolver=cloudflare"
