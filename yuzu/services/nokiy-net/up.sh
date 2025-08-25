@@ -2,7 +2,7 @@
 
 # request for DATA_DIR, default to /data
 read -p "Enter DATA_DIR (default: /data): " INPUT_DIR
-DATA_DIR=$(realpath "${INPUT_DIR:-/data}/self-nokiy-net")
+DATA_DIR=$(realpath "${INPUT_DIR:-/data}/nokiy-net")
 ENV_FILE=${DATA_DIR}/.env
 
 # if DATA_DIR does not exist, create it
