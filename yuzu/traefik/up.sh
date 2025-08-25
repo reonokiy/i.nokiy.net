@@ -18,4 +18,10 @@ fi
 # fix permission for acme.json
 sudo chmod 600 "$ACME_DATA_FILE"
 
+# test if docker external network "proxy" exists
+if ! sudo docker network ls | grep -q "proxy"; then
+  echo "Creating docker external network 'proxy'"
+  sudo docker network create -d bridge proxy
+fi
+
 op run --env-file=./.env -- sudo docker compose up -d
