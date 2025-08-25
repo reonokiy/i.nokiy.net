@@ -1,0 +1,57 @@
+services:
+  traefik:
+    image: traefik:v3.5.0
+    command:
+      # --- API and Dashboard ---
+      - "--api.dashboard=true"
+      
+      # --- EntryPoints ---
+      # Define the HTTP entrypoint on port 80
+      - "--entrypoints.web.address=:80"
+      # Define the HTTPS entrypoint on port 443
+      - "--entrypoints.websecure.address=:443"
+      # Redirect all traffic from HTTP to HTTPS
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+
+      # --- Provider ---
+      # Enable Docker as the configuration provider
+      - "--providers.docker=true"
+      # Do not expose all containers by default
+      - "--providers.docker.exposedbydefault=false"
+
+      # --- Certificate Resolver ---
+      # Define a resolver named 'cloudflare'
+      - "--certificatesresolvers.cloudflare.acme.email=${ACME_EMAIL}"
+      - "--certificatesresolvers.cloudflare.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
+      # To use Let's Encrypt's staging server for testing, uncomment the next line:
+      # - "--certificatesresolvers.cloudflare.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+
+      # --- Logging ---
+      - "--log.level=INFO"
+    ports:
+      - "80:80"      # HTTP traffic
+      - "443:443"    # HTTPS traffic
+    environment:
+      # Pass the Cloudflare API Token from the .env file
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
+      # This is now used by the command argument instead of the traefik.yml file
+      - ACME_EMAIL=${ACME_EMAIL}
+    volumes:
+      # Mount the Docker socket to allow Traefik to listen to Docker events
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "${DATA_DIR:-/data}/traefik_data/acme.json:/letsencrypt/acme.json"
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.yuzu.i.nokiy.net`)"
+      - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
+      - "traefik.http.routers.traefik-dashboard.service=api@internal"
+      - "traefik.http.routers.traefik-dashboard.tls.certresolver=cloudflare"
+
+networks:
+  proxy:
+    external: true
+    name: proxy
