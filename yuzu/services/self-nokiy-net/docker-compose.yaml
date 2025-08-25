@@ -11,6 +11,7 @@ services:
       NOKIY_DB__CONNECT_STRING: postgresql://${DB_USER:-nokiy}:${DB_PASSWORD:-nokiy}@postgres:5432/${DB_NAME:-nokiy}
     networks:
       - proxy
+      - internal-nokiy-net
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.api-nokiy-net.loadbalancer.server.port=8000"
@@ -33,6 +34,7 @@ services:
       API_ENDPOINT: http://self:8000
     networks:
       - proxy
+      - internal-nokiy-net
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.frontend-nokiy-net.loadbalancer.server.port=4321"
@@ -63,8 +65,11 @@ services:
       timeout: 30s
       retries: 5
       start_period: 30s
+    networks:
+      - internal-nokiy-net
 
 networks:
   proxy:
     external: true
     name: proxy
+  internal-nokiy-net:
