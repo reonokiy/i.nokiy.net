@@ -17,6 +17,8 @@ services:
     restart: unless-stopped
     environment:
       API_ENDPOINT: http://self:8000
+    ports:
+      - 4321:4321
 
   postgres:
     image: postgres:17-trixie
