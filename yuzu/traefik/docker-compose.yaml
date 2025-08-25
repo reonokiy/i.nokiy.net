@@ -37,6 +37,8 @@ services:
       # Pass the Cloudflare API Token from the .env file
       - CF_API_EMAIL=${CF_API_EMAIL}
       - CF_API_TOKEN=${CF_API_TOKEN}
+      - CF_DNS_API_TOKEN=${CF_API_TOKEN}
+      - CF_ZONE_API_TOKEN=${CF_API_TOKEN}
       # This is now used by the command argument instead of the traefik.yml file
       - ACME_EMAIL=${ACME_EMAIL}
     volumes:
