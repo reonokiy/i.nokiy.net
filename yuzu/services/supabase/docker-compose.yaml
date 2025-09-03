@@ -425,7 +425,7 @@ services:
       # Changes required for Pooler support
       - ${DATA_DIR:-/data/supabase}/db/pooler.sql:/docker-entrypoint-initdb.d/migrations/99-pooler.sql:Z
       # Use named volume to persist pgsodium decryption key between restarts
-      - ${DATA_DIR:-/data/supabase}/db-config:/etc/postgresql-custom
+      - supabase-db-config:/etc/postgresql-custom
     healthcheck:
       test:
         [
@@ -556,3 +556,6 @@ networks:
     name: proxy
   supabase:
     driver: bridge
+
+volumes:
+  supabase-db-config:
