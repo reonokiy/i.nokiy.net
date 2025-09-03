@@ -21,6 +21,7 @@ services:
       - "--providers.docker=true"
       # Do not expose all containers by default
       - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=proxy"
 
       # --- Certificate Resolver ---
       # Define a resolver named 'cloudflare'
