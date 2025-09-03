@@ -443,7 +443,7 @@ services:
       vector:
         condition: service_healthy
     environment:
-      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_HOST: /var/run/postgresql
       PGPORT: ${POSTGRES_PORT}
       POSTGRES_PORT: ${POSTGRES_PORT}
       PGPASSWORD: ${POSTGRES_PASSWORD}
@@ -457,8 +457,8 @@ services:
         "postgres",
         "-c",
         "config_file=/etc/postgresql/postgresql.conf",
-        "-c",
-        "log_min_messages=fatal" # prevents Realtime polling queries from appearing in logs
+        # "-c",
+        # "log_min_messages=fatal" # prevents Realtime polling queries from appearing in logs
       ]
     networks:
       - supabase
