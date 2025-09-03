@@ -80,6 +80,20 @@ services:
     networks:
       - supabase
       - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.base-nokiy-net.loadbalancer.server.port=8000"
+      - "traefik.http.routers.base-nokiy-net.rule=Host(`base.nokiy.net`)"
+      - "traefik.http.routers.base-nokiy-net.entrypoints=websecure,internal"
+      - "traefik.http.routers.base-nokiy-net.service=base-nokiy-net"
+      - "traefik.http.routers.base-nokiy-net.tls=true"
+      - "traefik.http.routers.base-nokiy-net.tls.certresolver=cloudflare"
+      # Internal API access
+      - "traefik.http.routers.internal-base-nokiy-net.rule=Host(`base-nokiy-net.yuzu.i.nokiy.net`)"
+      - "traefik.http.routers.internal-base-nokiy-net.entrypoints=internal"
+      - "traefik.http.routers.internal-base-nokiy-net.service=base-nokiy-net"
+      - "traefik.http.routers.internal-base-nokiy-net.tls=true"
+      - "traefik.http.routers.internal-base-nokiy-net.tls.certresolver=cloudflare"
 
   auth:
     container_name: supabase-auth
