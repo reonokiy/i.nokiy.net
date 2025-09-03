@@ -1,0 +1,23 @@
+services:
+  traefik:
+    image: traefik:v3.5.0
+    command:
+      - "--api.insecure=true" # Enables the dashboard (don't use in production)
+      - "--providers.docker=true" # Enables the Docker provider
+      - "--providers.docker.exposedbydefault=false" # Best practice: only expose containers with labels
+      - "--entrypoints.web.address=:80" # Defines an entrypoint for HTTP traffic on port 80
+    ports:
+      - "80:80"      # HTTP traffic
+      - "8080:8080"  # The Traefik dashboard
+    volumes:
+      # Mount the Docker socket to allow Traefik to listen to Docker events
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      # Attach to our shared external network
+      - proxy_net
+
+networks:
+  proxy_net:
+    # This tells Docker Compose that the network is created outside of this file
+    external: true
+    name: proxy_net

@@ -1,3 +1,6 @@
 [submodule "tone/services/signoz/upstream"]
 	path = tone/services/signoz/upstream
 	url = https://github.com/SigNoz/signoz.git
+[submodule "yuzu/services/supabase/upstream"]
+	path = yuzu/services/supabase/upstream
+	url = https://github.com/supabase/supabase
