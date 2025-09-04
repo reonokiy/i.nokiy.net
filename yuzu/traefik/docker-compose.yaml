@@ -13,6 +13,8 @@ services:
       - "--entrypoints.websecure.address=:443"
       # Define the internal entrypoint on port 8080
       - "--entrypoints.internal.address=:8080"
+      # Define the MongoDB TCP entrypoint on port 27017
+      - "--entrypoints.mongo.address=:27017"
       # Redirect all traffic from HTTP to HTTPS
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
@@ -42,6 +44,7 @@ services:
       - "${EXTERNAL_IPV4}:443:443"    # HTTPS traffic
       - "[${EXTERNAL_IPV6}]:443:443"
       - "${INTERNAL_IPV4}:443:8080"  # Internal traffic
+      - "${INTERNAL_IPV4}:27017:27017"  # MongoDB TCP traffic
 
     environment:
       # Pass the Cloudflare API Token from the .env file
