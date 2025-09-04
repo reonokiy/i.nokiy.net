@@ -36,7 +36,7 @@ services:
       - "traefik.http.routers.mongo-express.rule=Host(`mongo.i.nokiy.net`)"
       - "traefik.http.routers.mongo-express.entrypoints=internal"
       - "traefik.http.routers.mongo-express.tls.certresolver=cloudflare"
-      - "traefik.http.routers.mongo-express.middlewares=authentik-auth@docker"
+      - "traefik.http.routers.mongo-express.middlewares=authentik@docker"
 
 networks:
   proxy:
